@@ -1,1 +1,0 @@
--wto "2371c2f26574426aa56207a53785e692" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "tb_convolution_image_behav" "xil_defaultlib.tb_convolution_image" -log "elaborate.log" 
