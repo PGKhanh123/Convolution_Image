@@ -7,13 +7,13 @@ GENERIC( DATA_WIDTH : Integer := 8);
     port ( 
         clk, rst : in  std_logic;
         en       : in  std_logic;
-        d        : in  unsigned(DATA_WIDTH-1 downto 0);
-        q        : out unsigned(DATA_WIDTH-1 downto 0)
+        d        : in  std_logic_vector(DATA_WIDTH-1 downto 0);
+        q        : out std_logic_vector(DATA_WIDTH-1 downto 0)
     );
 end reg;
 
 architecture rtl of reg is
-    signal q_reg : unsigned(DATA_WIDTH-1 downto 0) := (others => '0');
+    signal q_reg : std_logic_vector(DATA_WIDTH-1 downto 0) := (others => '0');
 begin
     process(clk, rst)
     begin

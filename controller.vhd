@@ -154,8 +154,19 @@ rst_sum <= '1' when state = s0 else '0';
 sum_ld <= '1' when state = s6 else '0';
 
 --mux
+sum_sel <= '0' when state = s6 else 
+           '1' when state = s12 else 
+           '0';
+mem_addr_sel <= "00" when state = s15 else
+                "10" when state = s11 else
+                "01" when state = s10 else
+                "11";
 
-sum_sel <= '0' when state = s6 else '1' when state = s12 else '0';
-mem_addr
+-- memory control signal
+mem_w_en <= '1' when state = s15 else '0';
+mem_r_en <= '1' when (state = s10 or state = s11 ) else '0';
 
+--done
+done <= '1' when state = s17 else '0';
 end rtl;
+

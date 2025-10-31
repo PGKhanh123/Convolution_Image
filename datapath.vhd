@@ -26,13 +26,13 @@ entity datapath is
         sum_sel        : in std_logic;
         mem_read_data  : in std_logic_vector(31 downto 0);
         mem_write_data : out std_logic_vector(31 downto 0);
-        mem_addr       : out std_logic_vector(17 downto 0)
+        mem_addr       : out unsigned(17 downto 0)
     );
 end datapath;
 
 architecture rtl of datapath is
     -- signals
-    signal S_sub_1, S       : unsigned(7 downto 0);
+    signal S_sub_1, S, K_sub_1     : unsigned(7 downto 0);
     signal i, j, m, n_out   : unsigned(7 downto 0);
     signal val_in, val_k    : std_logic_vector(15 downto 0);
     signal sum, sum_out, sum_in : std_logic_vector(31 downto 0);
@@ -41,12 +41,12 @@ architecture rtl of datapath is
 begin
     S       <= N - K + 1;
     S_sub_1 <= N - K;
-
+    K_sub_1 <= K -1;
     -----------------------------------------------------------------
     -- COUNTERS
     -----------------------------------------------------------------
     i_up_counter : up_counter 
-        generic map (START => (others => '0'))
+        
         port map (
             clk   => clk, 
             inc   => inc_i,
@@ -57,7 +57,7 @@ begin
         );
 
     j_up_counter : up_counter 
-        generic map (START => (others => '0'))
+        
         port map (
             clk   => clk, 
             inc   => inc_j,
@@ -68,25 +68,25 @@ begin
         );
 
     m_up_counter : up_counter 
-        generic map (START => (others => '0'))
+        
         port map (
             clk   => clk, 
             inc   => inc_m,
             rst   => rst_m,
             z     => z_m,
             count => m,
-            stop  => S
+            stop  => K_sub_1
         );
 
     n_up_counter : up_counter 
-        generic map (START => (others => '0'))
+        
         port map (
             clk   => clk, 
             inc   => inc_n,
             rst   => rst_n,
             z     => z_n, 
             count => n_out,
-            stop  => S
+            stop  => K_sub_1
         );
     -----------------------------------------------------------------
     -- caculating address
@@ -96,9 +96,9 @@ addr_out <= base_out + resize(S * i + j, 18);
 addr_in  <= base_in  + resize((j + n_out) + ((i + m) * N), 18);
 addr_k   <= base_k   + resize((m * K) + n_out, 18);
 
-mem_addr <= std_logic_vector(addr_out) when mem_addr_sel = "00" else
-            std_logic_vector(addr_in)  when mem_addr_sel = "01" else
-            std_logic_vector(addr_k)   when mem_addr_sel = "10" else
+mem_addr <= addr_out when mem_addr_sel = "00" else
+            addr_in when mem_addr_sel = "01" else
+            addr_k   when mem_addr_sel = "10" else
             (others => '0');
 
 
@@ -111,7 +111,7 @@ mem_addr <= std_logic_vector(addr_out) when mem_addr_sel = "00" else
             rst => rst_in,
             clk => clk,
             en  => val_in_ld,
-            d   => mem_read_data,
+            d   => mem_read_data(15 downto 0),
             q   => val_in
         );
 
@@ -121,7 +121,7 @@ mem_addr <= std_logic_vector(addr_out) when mem_addr_sel = "00" else
             rst => rst_k,
             clk => clk,
             en  => val_k_ld,
-            d   => mem_read_data,
+            d   => mem_read_data(15 downto 0),
             q   => val_k
         );
 
@@ -147,3 +147,4 @@ sum_in <= std_logic_vector(
 
 
 end rtl;
+

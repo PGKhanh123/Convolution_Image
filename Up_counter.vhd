@@ -29,3 +29,4 @@ begin
     z <= '1' when cnt = stop else '0';
     count <= cnt;
 end rtl;
+
