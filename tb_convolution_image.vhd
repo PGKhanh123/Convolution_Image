@@ -64,7 +64,7 @@ port map(
 sim : process
 	BEGIN
 		N <= to_unsigned(5, 8);
-                K <= to_unsigned(5, 8);
+                K <= to_unsigned(3, 8);
 	        base_in <= to_unsigned(0, 18);
 		base_k <= to_unsigned(25, 18);
                 base_out <= to_unsigned(50, 18);

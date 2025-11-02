@@ -45,6 +45,7 @@ component datapath
         rst_k, val_k_ld   : in std_logic;
         rst_sum, sum_ld   : in std_logic;
 
+
         -- memory signals
         base_in, base_k, base_out : in unsigned(17 downto 0);
         mem_addr_sel   : in std_logic_vector(1 downto 0);
@@ -71,7 +72,7 @@ z_i, z_j, z_m, z_n : in std_logic;
 
 --reg
 rst_in, rst_k, rst_sum: out std_logic;
-val_in_ld, val_k_ld, sum_ld : out std_logic;
+val_in_ld, val_k_ld, sum_ld: out std_logic;
 
 -- mux
 mem_addr_sel: out std_logic_vector(1 downto 0);

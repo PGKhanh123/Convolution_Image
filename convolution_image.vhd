@@ -1,4 +1,4 @@
-library IEEE;
+	library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;	
 use IEEE.NUMERIC_STD.ALL;
 use WORK.lib_package.ALL;
@@ -47,7 +47,7 @@ begin
     --------------------------------------------------------------------
     -- Controller module
     --------------------------------------------------------------------
-    control : controller 
+    control_unit : controller 
         port map(
             rst   => rst,
             clk   => clk,
@@ -66,10 +66,11 @@ begin
             rst_in     => rst_in,
             rst_k      => rst_k,
             rst_sum    => rst_sum,
+            
             val_in_ld  => val_in_ld,
             val_k_ld   => val_k_ld,
             sum_ld     => sum_ld,
-
+	    
             -- mux selects
             mem_addr_sel => mem_addr_sel,
             sum_sel      => sum_sel,
@@ -102,7 +103,7 @@ begin
             rst_in     => rst_in,  val_in_ld => val_in_ld,
             rst_k      => rst_k,   val_k_ld  => val_k_ld,
             rst_sum    => rst_sum, sum_ld    => sum_ld,
-
+            
             -- memory interface
             base_in        => base_in,
             base_k         => base_k,

@@ -20,6 +20,7 @@ entity datapath is
         rst_k, val_k_ld   : in std_logic;
         rst_sum, sum_ld   : in std_logic;
 
+
         -- memory signals
         base_in, base_k, base_out : in unsigned(17 downto 0);
         mem_addr_sel   : in std_logic_vector(1 downto 0);
@@ -32,16 +33,15 @@ end datapath;
 
 architecture rtl of datapath is
     -- signals
-    signal S_sub_1, S, K_sub_1     : unsigned(7 downto 0);
-    signal i, j, m, n_out   : unsigned(7 downto 0);
-    signal val_in, val_k    : std_logic_vector(15 downto 0);
-    signal sum, sum_out, sum_in : std_logic_vector(31 downto 0);
-    signal addr_out, addr_in, addr_k : unsigned(17 downto 0);
+    signal S_sub_1, S, K_sub_1     : unsigned(7 downto 0):= (others => '0');
+    signal i, j, m, n_out   : unsigned(7 downto 0) := (others => '0');
+    signal val_in, val_k    : std_logic_vector(15 downto 0):= (others => '0');
+    signal sum, sum_out, sum_in : std_logic_vector(31 downto 0):= (others => '0');
+    signal addr_out, addr_in, addr_k : unsigned(17 downto 0):= (others => '0');
 
 begin
     S       <= N - K + 1;
-    S_sub_1 <= N - K;
-    K_sub_1 <= K -1;
+
     -----------------------------------------------------------------
     -- COUNTERS
     -----------------------------------------------------------------
@@ -53,7 +53,7 @@ begin
             rst   => rst_i,
             z     => z_i,
             count => i, 
-            stop  => S_sub_1
+            stop  => S
         );
 
     j_up_counter : up_counter 
@@ -64,7 +64,7 @@ begin
             rst   => rst_j,
             z     => z_j,
             count => j, 
-            stop  => S_sub_1
+            stop  => S
         );
 
     m_up_counter : up_counter 
@@ -75,7 +75,7 @@ begin
             rst   => rst_m,
             z     => z_m,
             count => m,
-            stop  => K_sub_1
+            stop  => K
         );
 
     n_up_counter : up_counter 
@@ -86,7 +86,7 @@ begin
             rst   => rst_n,
             z     => z_n, 
             count => n_out,
-            stop  => K_sub_1
+            stop  => K
         );
     -----------------------------------------------------------------
     -- caculating address
